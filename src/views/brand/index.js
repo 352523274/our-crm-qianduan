@@ -22,7 +22,8 @@ export default {
     methods:{
        async finaAll(){
             let respnse = await brand.findAll(this.currentPage,this.pageSize);
-             this.tableData=respnse.data
+             this.tableData=respnse.list
+           console.log(respnse.list)
               this.total=respnse.total;
            console.log(respnse)
         },

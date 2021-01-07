@@ -14,7 +14,7 @@ axios.interceptors.request.use(function (config) {
 
 axios.interceptors.response.use(function (response) {
    let {status,message,data}=response.data;
-   if (status==2000){
+   if (status==20000){
        return data
    }else {
       Message.error(message)
