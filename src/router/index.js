@@ -21,24 +21,32 @@ const routes = [
     component: () => import( '../views/main/index.vue'),
     children:[
       {
-        path: '/index',
+        path: 'index',
         name: 'index',
         component: () => import( '../views/index/index.vue'),
       } ,
       {
-        path: '/supplier',
+        path: 'supplier',
         name: 'supplier',
         component: () => import( '../views/supplier/index.vue'),
       },
       {
-        path: '/brand',
+        path: 'brand',
         name: 'brand',
         component: () => import( '../views/brand/index.vue'),
       }
       ,{
-        path: '/category',
+        path: 'category',
         name: 'category',
         component: () => import( '../views/category/index.vue'),
+      },{
+        path: 'goods',
+        name: 'goods',
+        component: () => import( '../views/goods/goods/index.vue'),
+      },{
+        path: 'firstGoods',
+        name: 'firstGoods',
+        component: () => import( '../views/goods/firstGoods/index.vue'),
       }
     ]
   }

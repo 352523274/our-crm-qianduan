@@ -1,75 +1,183 @@
 import category from "@/api/category";
 
-export default {
-    name: "index.vue",
+let obj = {
+    name: "index",
     data() {
         return {
             tableData: [],
-            currentPage: 1,
-            pageSize: 5,
-            total: 0,
-            editDialig: false,
-            delDialig:false,
-            formData: {},
-            ids:[]
+            addOrUpdateVisible:false,
+            ids:[],
+            formData: {
+            },
+            //下拉框相关
+            valueId:this.value,  // 初始值
+            valueTitle:'',
+            defaultExpandedKey:[],
+            //
+
         }
+    },
+    //下拉框的属性数据
+    props:{
+        /* 配置项 */
+        props:{
+            type: Object,
+            default:()=>{
+                return {
+                    value:'id',       // ID字段名
+                    label: 'categoryName',     // 显示名称
+                    children: 'children'  // 子级字段名
+                }
+            }
+        },
+        /* 选项列表数据(树形结构的对象数组) */
+        // options:{
+        //     type: Array,
+        //     default: ()=>{ return null }
+        // },
+        /* 初始值 */
+        value:{
+            type: Number,
+            default: ()=>{ return 0 }
+        },
+        /* 可清空选项 */
+        clearable:{
+            type:Boolean,
+            default:()=>{ return true }
+        },
+        /* 自动收起 */
+        accordion:{
+            type:Boolean,
+            default:()=>{ return false }
+        },
+    },
 
-
+    mounted(){
+        this.initHandle()
     },
     created() {
-        this .finaAll();
+        this.getTreeData();
     },
-    methods:{
-       async finaAll(){
-            let respnse = await category.findAll(this.currentPage,this.pageSize);
-             this.tableData=respnse.data
-              this.total=respnse.total;
-           console.log(respnse)
-        },
-       async  addOrEdit(){
-              if (this.formData.id){
-                  //修改
-                  await category.updateEntity(this.formData)
-                  this.finaAll();
-                  this.formData={}
-              }else {
-                  //新建
-                  await category.addEntity(this.formData) ;
-                  this.finaAll();
-                  this.formData={}
-              }
-        },
-        pageChange(page){
-             this.currentPage=page;
-             this.finaAll()
-        },
-       async findById(id){
-           this.editDialig=true
-           console.log(id)
-           this.formData=await category.findById(id)
+    methods: {
+        //下拉框相关方法
+        initHandle(){
+            if(this.valueId){
+                this.valueTitle = this.$refs.selectTree.getNode(this.valueId).data[this.props.label]   // 初始化显示
 
-
-
-        },
-        selectionChangListenter(selection){
-           this.ids=[]
-           selection.forEach(item =>this.ids.push(item.id));
-            console.log(this.ids)
-
-        },
-
-        async deleteByIds(){
-            if (this.ids.length==0){
-                console.log("1323223")
-                this.$message.success("请选中要删除的内容")
-            }else {
-                await category.deleteById(this.ids);
-                this.finaAll()
-                this.ids=[]
+                this.$refs.selectTree.setCurrentKey(this.valueId)    // 设置默认选中
+                this.defaultExpandedKey = [this.valueId]   // 设置默认展开
             }
+            if (this.valueId==0){
+                this.valueTitle ="无"
+            }
+            this.$nextTick(()=>{
+                // let scrollWrap = document.querySelectorAll('.el-scrollbar .el-select-dropdown__wrap')[0]
+                let scrollBar = document.querySelectorAll('.el-scrollbar .el-scrollbar__bar')
+                // scrollWrap.style.cssText = 'margin: 0px; max-height: none; overflow: hidden;'
+                scrollBar.forEach(ele => ele.style.width = 0)
+            })
+
+        },
+        // 切换选项
+        handleNodeClick(node){
+            this.valueTitle = node[this.props.label]
+            this.valueId = node[this.props.value]
+            this.formData.parentId=this.valueId
+            this.$emit('getValue',this.valueId)
+            this.defaultExpandedKey = []
+
+        },
+        // 清除选中
+        clearHandle(){
+            this.valueTitle = ''
+            this.valueId = null
+            this.defaultExpandedKey = []
+            this.clearSelected()
+            this.$emit('getValue',null)
+        },
+        /* 清空选中样式 */
+        clearSelected(){
+            let allNode = document.querySelectorAll('#tree-option .el-tree-node')
+            allNode.forEach((element)=>element.classList.remove('is-current'))
+        },
+
+        //上为下拉框相关方法
+
+        /**
+         分页查询
+         */
+        async getTreeData() {
+            let response = await category.getTreeData();
+            console.log(response);
+            this.tableData = response;
 
         },
 
+        /**
+         * 增加或者修改
+         */
+        async addOrUpdate(){
+            if (this.formData.id){
+                //修改
+                await category.updateEntity(this.formData)
 
-    }
+            }else {
+                //添加
+                await category.addEntity(this.formData)
+            }
+            this.getTreeData()
+        },
+
+        /**
+         * 根据id查询
+         */
+        async findById(id){
+            this.formData=await category.findById(id)
+            this.valueId=this.formData.parentId;
+            this.initHandle();
+        },
+
+        /**
+         * 删除
+         */
+        async deleteEntity(){
+            await category.deleteEntity(this.ids)
+            this.getTreeData()
+        },
+        /**
+         * 删除弹框
+         */
+        open() {
+            this.$confirm('是否删除?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.deleteEntity();
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        }
+
+    },
+    watch: {
+        value(){
+            this.valueId = this.value
+            this.initHandle()
+        }
+    },
+
+
+
+
+
 }
+
+export default obj;
