@@ -21,12 +21,12 @@ const routes = [
     component: () => import( '../views/main/index.vue'),
     children:[
       {
-        path: 'index',
+        path: '/index',
         name: 'index',
         component: () => import( '../views/index/index.vue'),
       } ,
       {
-        path: 'supplier',
+        path: '/supplier',
         name: 'supplier',
         component: () => import( '../views/supplier/index.vue'),
       },
@@ -36,14 +36,29 @@ const routes = [
         component: () => import( '../views/supplier/SupplierAddGoods/index.vue'),
       },
       {
-        path: 'brand',
+        path: '/brand',
         name: 'brand',
         component: () => import( '../views/brand/index.vue'),
       }
       ,{
-        path: 'category',
+        path: '/category',
         name: 'category',
         component: () => import( '../views/category/index.vue'),
+      },
+      {
+        path: '/putStorage',
+        name: 'putStorage',
+        component: () => import( '../views/putStorage/index.vue'),
+      }
+      ,{
+        path: '/appliaction',
+        name: 'appliaction',
+        component: () => import( '../views/appliaction/index.vue'),
+      },
+      {
+        path: 'appliactionDetail',
+        name: 'appliactionDetail',
+        component: () => import( '../views/appliactionDetail/index.vue'),
       },{
         path: 'goods',
         name: 'goods',
