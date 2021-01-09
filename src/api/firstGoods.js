@@ -6,8 +6,9 @@ let firstGoods= {
     finaPageWithExample(currentPage, pageSize,obj) {
         return crm.post(`firstGoods/getPageWithExample?currentPage=${currentPage}&pageSize=${pageSize}`,obj)
     },
-    findById(id) {
-        return crm.get(`firstGoods/${id}`)
+   async findById(id) {
+        let a=await crm.get(`firstGoods/${id}`)
+       return a;
     },
    addEntity(entity){
         return axios.post(`firstGoods`,entity);
@@ -16,7 +17,7 @@ let firstGoods= {
         return axios.put(`firstGoods`,entity);
    },
     deleteById(ids){
-        axios.delete(`firstGoods/${ids}`);
+       return  axios.delete(`firstGoods/${ids}`);
     }
 
 }

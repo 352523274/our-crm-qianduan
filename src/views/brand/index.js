@@ -17,7 +17,7 @@ export default {
 
     },
     created() {
-        this .finaAll();
+        this.finaAll();
     },
     methods:{
        async finaAll(){
@@ -27,6 +27,7 @@ export default {
               this.total=respnse.total;
            console.log(respnse)
         },
+
        async  addOrEdit(){
               if (this.formData.id){
                   //修改
@@ -61,13 +62,13 @@ export default {
 
         async deleteByIds(){
             if (this.ids.length==0){
-                console.log("1323223")
                 this.$message.success("请选中要删除的内容")
             }else {
                 await brand.deleteById(this.ids);
-                this.finaAll()
                 this.ids=[]
             }
+            console.log("删除完了")
+            this.finaAll();
 
         },
 

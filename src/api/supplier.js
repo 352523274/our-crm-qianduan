@@ -1,21 +1,24 @@
 import crm from "../utils/baseAxios";
 import axios from "axios";
 
-let supplier= {
-    findAll(currentPage, pageSize) {
-        return crm.get(`supplier?currentPage=${currentPage}&pageSize=${pageSize}`)
+let supplier = {
+    getAddGoods(supplierId){
+        return crm.get(`supplier/getAddGoods?supplierId=${supplierId}`)
+    },
+    getPageWithExample(currentPage, pageSize, obj) {
+        return crm.post(`supplier/getPageWithExample?currentPage=${currentPage}&pageSize=${pageSize}`, obj)
     },
     findById(id) {
         return crm.get(`supplier/${id}`)
     },
-   addEntity(entity){
-        return axios.post(`supplier`,entity);
-   },
-    updateEntity(entity){
-        return axios.put(`supplier`,entity);
-   },
-    deleteById(ids){
-        axios.delete(`supplier/${ids}`);
+    addEntity(entity) {
+        return axios.post(`supplier`, entity);
+    },
+    updateEntity(entity) {
+        return axios.put(`supplier`, entity);
+    },
+    deleteById(ids) {
+        return axios.delete(`supplier/${ids}`);
     }
 
 }

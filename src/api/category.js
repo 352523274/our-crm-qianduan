@@ -21,7 +21,7 @@ let category= {
         return axios.put(`category`,entity);
     },
     deleteById(ids){
-        axios.delete(`category/${ids}`);
+       return  axios.delete(`category/${ids}`);
     }
 
 }

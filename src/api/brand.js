@@ -2,6 +2,9 @@ import crm from "../utils/baseAxios";
 import axios from "axios";
 
 let brand= {
+    findAllWithoutExampleAndPage(){
+        return crm.get(`brand/findAllWithoutExampleAndPage`)
+    },
     findAll(currentPage, pageSize) {
         return crm.get(`brand?currentPage=${currentPage}&pageSize=${pageSize}`)
     },
@@ -15,7 +18,7 @@ let brand= {
         return axios.put(`brand`,entity);
     },
     deleteById(ids){
-        axios.delete(`brand/${ids}`);
+       return  axios.delete(`brand/${ids}`);
     }
 
 }

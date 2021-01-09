@@ -18,6 +18,8 @@
     <!--查询部分-->
     <div class="search-box">
       <!--      搜索使用的-->
+
+
     </div>
     <!--      表单数据show-overflow-tooltip   -->
 <!--                                                             树形展示-->
@@ -32,13 +34,13 @@
           prop="categoryName"
           label="品牌名字"
           sortable
-          width="180">
+          >
       </el-table-column>
       <el-table-column
           prop="categoryDesc"
           label="分类描述"
           sortable
-          width="180">
+         >
       </el-table-column>
 
             <el-table-column
@@ -52,46 +54,7 @@
 
 
 
-<!--                                                             普通展示-->
-<!--    <div class="table-box">-->
-<!--      <el-table-->
-<!--          :data="tableData"-->
-<!--          @selection-change="selectionChange"-->
-<!--          ref="multipleTable"-->
-<!--          stripe-->
-<!--          border-->
-<!--          tooltip-effect="dark"-->
-<!--          style="width: 100%">-->
-<!--        <el-table-column-->
-<!--            type="selection"-->
-<!--            width="55">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--            prop="categoryName"-->
-<!--            label="分类名字"-->
-<!--            width="180">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--            prop="categoryDesc"-->
-<!--            label="分类描述"-->
-<!--            width="180">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--            prop="parentId"-->
-<!--            label="父ID">-->
-<!--        </el-table-column>-->
 
-<!--        <el-table-column-->
-<!--            label="操作">-->
-<!--          <template v-slot="rowD">-->
-<!--            <el-button size="mini" type="primary" @click="findById(rowD.row.id),addOrUpdateVisible=true">编辑</el-button>-->
-<!--            <el-button size="mini" type="danger" @click="$refs.multipleTable.clearSelection(),ids=[],ids.push(rowD.row.id),open()">删除</el-button>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-<!--      </el-table>-->
-
-<!--    </div>-->
-    <!--  分页部分-->
 
 
     <!--编辑添加框-->
@@ -124,14 +87,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-
-
-
-
-
-<!--        <el-form-item label="父ID">-->
-<!--        <el-input v-model="formData.parentId"></el-input>-->
-<!--      </el-form-item>-->
       </el-form>
       <span slot="footer" class="dialog-footer">
     <el-button @click="addOrUpdateVisible = false">取 消</el-button>
@@ -141,6 +96,12 @@
   </div>
 </template>
 
+
+
+
+
+
+<!--加载js-->
 <script src="./index.js">
 
 </script>
