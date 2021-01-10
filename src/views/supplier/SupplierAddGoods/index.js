@@ -8,7 +8,7 @@ export default {
             delDialig:false,
             formData: {},
             ids:[],
-            supplierId:this.$route.params.supplierId,
+            supplierId:localStorage.getItem("supplierId"),
             supplier:{},
 
         }
@@ -16,10 +16,29 @@ export default {
 
     },
     created() {
+        this.intSupplierId();
         this.findsupplierByid();
         this.getAddGoods();
+
     },
     methods:{
+        /**
+         * 跳转回来查看是否有值
+         */
+        intSupplierId(){
+            var item = localStorage.getItem("supplierId");
+            if (item){
+                this.supplierId=item;
+            }
+        },
+        /**
+         * 添加供应商商品
+         */
+        addGoods(){
+            //携带信息跳转页面  供应商id
+            localStorage.setItem("supplierId",this.supplierId)
+            this.$router.push({name:'/main/supplier/supplieraddgoods/selectGoods'})
+        },
         /**
          * 获取供应商名称
          */
@@ -57,7 +76,7 @@ export default {
             if (this.ids.length==0){
                 this.$message.success("请选中要删除的内容")
             }else {
-                await supplier.deleteById(this.ids);
+                await supplier.deletesuppgoodsById(this.ids);
                 this.ids=[]
             }
             this.getAddGoods();

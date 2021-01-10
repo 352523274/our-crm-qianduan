@@ -2,6 +2,7 @@ import category from "@/api/category";
 import goods from "@/api/goods";
 import brand from "@/api/brand";
 import firstGoods from "@/api/firstGoods";
+import supplier from "@/api/supplier";
 
 
 export default {
@@ -13,17 +14,14 @@ export default {
             currentPage: 1,
             pageSize: 5,
             total: 0,
-            editDialig: false,
-            delDialig: false,
-            formData: {},
             ids: [],
+            addialig: false,
             //    搜索框数据
             goodsName: "",
             goodsModel: '',
             goodsColorId: undefined,
             goodsBrandId: undefined,
             // goodsCategoryId:-1,
-
             goodsColor: [],
             goodsBrand: [],
             //只有最子级
@@ -36,8 +34,6 @@ export default {
             valueTitle: '',
             defaultExpandedKey: [],
 
-            //添加相关
-            addFirstBut: false,
         }
 
 
@@ -85,12 +81,6 @@ export default {
 
 
     methods: {
-        /**
-         * 添加商品----------->>>>>选择firstgoods
-         */
-        selectFirstGoods() {
-            this.$router.push({name: 'selectFirstGoods', params: {}})
-        },
         /**
          * 跳转
          */
@@ -193,7 +183,6 @@ export default {
             let allNode = document.querySelectorAll('#tree-option .el-tree-node')
             allNode.forEach((element) => element.classList.remove('is-current'))
         },
-
         //上为下拉框相关方法
 
 
@@ -223,44 +212,6 @@ export default {
             this.total = respnse.total;
             // console.log(this.tableData)
         },
-        /**
-         *点击确认后进行将form表单数据提交进行添加或者修改
-         */
-        async addOrEdit() {
-            console.log("进入addOrEdit")
-            if (this.formData.addTime) {
-                //修改
-                //给分类赋值
-                // this.formData.goodsColorId=this.valueId;
-                //验证分类是否为最下级
-                // let category= await category.findById(this.valueId)
-                //   if (category.ifParent){
-                //       this.open()
-                //       return;
-                //   }
-                await goods.updateEntity(this.formData)
-
-            } else {
-                //新建
-                await goods.addEntity(this.formData);
-            }
-            this.resetForm()
-        },
-
-        /**
-         * 清除表单信息form
-         */
-        resetForm() {
-            this.formData = {}
-            this.valueId = -1;
-            this.valueTitle = "";
-            // this.addFirstBut = false;
-            //清空搜索下拉框信息
-            this.goodsBrandId=undefined;
-            this.goodsCategoryId=undefined;
-            this.goodsColorId=undefined
-            this.finaPageWithExample();
-        },
 
         /**
          * 修改分类是父类弹框
@@ -273,41 +224,24 @@ export default {
             })
         },
 
-
         pageChange(page) {
             this.currentPage = page;
             this.finaPageWithExample()
-        },
-        /**
-         *点击编辑,查询数据并回显到from表单
-         */
-        async findById(id) {
-            this.formData = await goods.findById(id)
-            //将分类回显
-            this.valueId = this.formData.goodsCatagoryId;
-            this.valueTitle = this.formData.goodsCatagory;
-            //将颜色回显
-            this.goodsColorId=this.formData.goodsColorId;
-            //品牌回显
-            this.goodsBrandId=this.formData.goodsBrandId;
         },
         selectionChangListenter(selection) {
             this.ids = []
             selection.forEach(item => this.ids.push(item.id));
             console.log(this.ids)
-
         },
-
-        async deleteByIds() {
+        async addGoodsForSupplier() {
             if (this.ids.length == 0) {
-                console.log("1323223")
-                this.$message.success("请选中要删除的内容")
+                this.$message.success("请选中要添加的内容")
             } else {
-                await goods.deleteById(this.ids);
-                this.finaPageWithExample()
+                await supplier.addGoods(localStorage.getItem("supplierId"),this.ids);
                 this.ids = []
+                //添加成功跳转回去  到添加页面
+                this.$router.push({name:'supplieraddgoods'})
             }
-
         },
 
 

@@ -2,7 +2,7 @@
   <div class="supplier-box">
     <div class="execute-box">
       <el-button-group>
-        <el-button type="success" size="mini" icon="el-icon-edit" @click="editDialig=true">新建</el-button>
+        <el-button type="success" size="mini" icon="el-icon-edit" @click="editDialig=true,formData={}">新建</el-button>
         <el-button type="success" size="mini" icon="el-icon-delete" @click=" delDialig=true">删除</el-button>
       </el-button-group>
     </div>

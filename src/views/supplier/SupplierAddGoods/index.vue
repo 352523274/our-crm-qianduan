@@ -6,7 +6,7 @@
 
     <div class="execute-box">
       <el-button-group>
-        <el-button type="success" size="mini"  @click="editDialig=true">添加此供应商的供应商品</el-button>
+        <el-button type="success" size="mini"  @click="editDialig=true,addGoods()">添加此供应商的供应商品</el-button>
       </el-button-group>
     </div>
 <!--    <div class="search-box">-->

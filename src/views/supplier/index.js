@@ -38,7 +38,8 @@ export default {
          */
         gotoSupplierAddGoods(supplierId){
             console.log(supplierId);
-            this.$router.push({name:'supplieraddgoods',params:{supplierId:supplierId}});
+            localStorage.setItem("supplierId",supplierId)
+            this.$router.push({name:'supplieraddgoods'});
         },
         /**
          * 搜索框提交

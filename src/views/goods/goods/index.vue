@@ -2,10 +2,11 @@
   <div class="supplier-box">
     <div class="execute-box">
       <el-button-group>
-        <el-button type="success" size="mini" icon="el-icon-edit" @click="editDialig=true,addFirstBut=true">新建</el-button>
+        <el-button type="success" size="mini" icon="el-icon-edit" @click="editDialig=true,addFirstBut=true,resetForm()">新建</el-button>
         <el-button type="success" size="mini" icon="el-icon-delete" @click=" delDialig=true">删除</el-button>
       </el-button-group>
     </div>
+<!--    搜索框-->
     <div class="search-box">
 
       <el-form :inline="true" class="demo-form-inline">
@@ -16,7 +17,6 @@
           <el-input v-model="goodsModel" placeholder="商品型号"></el-input>
         </el-form-item>
         <el-form-item label="商品颜色">
-          <!--          <el-input v-model="goodsColorId" placeholder="商品颜色"></el-input>-->
           <el-select v-model="goodsColorId" placeholder="商品颜色" :clearable="clearable">
             <el-option
                 v-for="(item,index) in goodsColor"
@@ -25,7 +25,6 @@
                 :value="item.id">
             </el-option>
           </el-select>
-
         </el-form-item>
         <el-form-item label="商品品牌">
           <!--          <el-input v-model="goodsBrandId" placeholder="商品品牌"></el-input>-->
@@ -69,7 +68,9 @@
       </el-form>
     </div>
 
-    <!--    展示table-->
+
+
+    <!--                                                                                 展示table-->
     <div class="table-box">
       <el-table
           ref="dataTable"
@@ -86,7 +87,7 @@
             width="55">
         </el-table-column>
 
-        <!--        展开行数据-->
+        <!--                                                                                     展开行数据-->
         <el-table-column type="expand" label="详情展开" width="100">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -119,7 +120,7 @@
               </el-form-item>
 
               <el-form-item label="商品类型:">
-                <span>{{ props.row.goodsCategory }}</span>
+                <span>{{ props.row.goodsCatagory }}</span>
               </el-form-item>
 
 
@@ -183,7 +184,7 @@
             width="300"
         >
           <template v-slot="goods">
-            <el-button type="primary" size="mini" @click="editDialig=true,findById(goods.row.id)">编辑</el-button>
+            <el-button type="primary" size="mini" @click="editDialig=true,addFirstBut=false,findById(goods.row.id)">编辑</el-button>
             <el-button type="danger" size="mini"
                        @click=" delDialig=true,$refs.dataTable.clearSelection(),ids.push(goods.row.id)">删除
             </el-button>
@@ -192,7 +193,7 @@
       </el-table>
     </div>
 
-    <!--    分页插件-->
+    <!--                                                                     分页插件-->
     <div class="page-box">
       <el-pagination
           background
@@ -204,13 +205,14 @@
     </div>
 
 
-    <!--    编辑弹出框-->
+    <!--                                                                         编辑弹出框-->
     <el-dialog
         title="实体操作"
         :visible.sync="editDialig"
         width="50%"
+        @close="resetForm"
     >
-      <el-button type="primary" v-show="addFirstBut">主要按钮</el-button>
+      <el-button type="primary" v-show="addFirstBut" @click="selectFirstGoods()">选择一级商品</el-button>
       <el-form ref="editform" label-width="100px" size="small">
         <el-row>
           <el-col :span="10">
@@ -274,7 +276,7 @@
 
         <el-form-item label="商品类别">
           <el-col :span="19">
-          <el-select :value="valueTitle" :clearable="clearable" @clear="clearHandle">
+          <el-select :value="valueTitle" :clearable="clearable" @clear="clearHandle" @change="formData.goodsCatagoryId=valueId">
             <el-option :value="valueTitle" :label="valueTitle">
               <el-tree id="tree-edit"
                        ref="selectTree"
@@ -289,9 +291,40 @@
             </el-option>
           </el-select>
             </el-col>
+        </el-form-item>
 <!--            树形展示-->
+          <el-form-item label="商品颜色">
+            <el-col :span="19">
+              <el-select v-model="goodsColorId" placeholder="商品颜色" :clearable="clearable" @change="formData.goodsColorId=goodsColorId">
+                <el-option
+                    v-for="(item,index) in goodsColor"
+                    :key="index"
+                    :label="item.color"
+                    :value="item.id">
+                </el-option>
+              </el-select>
+            </el-col>
+          </el-form-item>
+
+
+        <el-form-item label="商品品牌">
+          <!--          <el-input v-model="goodsBrandId" placeholder="商品品牌"></el-input>-->
+
+          <el-select v-model="goodsBrandId" placeholder="商品品牌" :clearable="clearable" @change="formData.goodsBrandId=goodsBrandId">
+            <el-option
+                v-for="(item,index) in goodsBrand"
+                :key="index"
+                :label="item.brandName"
+                :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
 
+        <el-form-item label="商品型号">
+          <el-col :span="19">
+            <el-input v-model="formData.goodsModel"></el-input>
+          </el-col>
+        </el-form-item>
 
         <el-form-item label="市场价格">
           <el-col :span="19">
@@ -308,6 +341,8 @@
           <el-input v-model="formData.minStock"></el-input>
           </el-col>
         </el-form-item>
+
+
 
         <el-form-item label="是否可采购">
           <el-col :span="19">
@@ -333,10 +368,10 @@
     </el-dialog>
 
 
-    <!--    新增弹框-->
+    <!--                                                                           新增弹框-->
 
 
-    <!--删除弹框-->
+    <!--                                                                                删除弹框-->
     <el-dialog
         title="温馨提示"
         :visible.sync="delDialig"

@@ -26,7 +26,7 @@ const routes = [
         component: () => import( '../views/index/index.vue'),
       } ,
       {
-        path: '/supplier',
+        path: 'supplier',
         name: 'supplier',
         component: () => import( '../views/supplier/index.vue'),
       },
@@ -36,12 +36,17 @@ const routes = [
         component: () => import( '../views/supplier/SupplierAddGoods/index.vue'),
       },
       {
-        path: '/brand',
+        path: '/main/supplier/supplieraddgoods/selectGoods',
+        name: '/main/supplier/supplieraddgoods/selectGoods',
+        component: () => import( '../views/supplier/SupplierAddGoods/selectGoods/index.vue'),
+      },
+      {
+        path: 'brand',
         name: 'brand',
         component: () => import( '../views/brand/index.vue'),
       }
       ,{
-        path: '/category',
+        path: 'category',
         name: 'category',
         component: () => import( '../views/category/index.vue'),
       },
@@ -76,7 +81,31 @@ const routes = [
         path: 'SellOrderDetail',
         name: 'SellOrderDetail',
         component: () => import( '../views/SellOrderDetail/index.vue'),
-      }
+      },{
+        path: 'goods/selectFirstGoods',
+        name: 'selectFirstGoods',
+        component: () => import( '../views/goods/goods/selectFirstGoods/index.vue'),
+      },
+      {
+        path: 'priceadjust/priceadjustadmin',
+        name: 'priceadjust/priceadjustadmin',
+        component: () => import( '../views/goods/priceadjust/priceadjustadmin/index.vue'),
+      },
+      {
+        path: 'priceadjust/selectGoods',
+        name: 'priceadjust/selectGoods',
+        component: () => import( '../views/goods/priceadjust/priceadjustadmin/selectGoods/index.vue'),
+      },{
+        path: 'priceadjust/aduitTrace',
+        name: 'priceadjust/aduitTrace',
+        component: () => import( '../views/goods/priceadjust/aduitTrace/index.vue'),
+      },{
+        path: 'priceadjust/priceadjustaudit',
+        name: 'priceadjust/priceadjustaudit',
+        component: () => import( '../views/goods/priceadjust/priceadjustaudit/index.vue'),
+      },
+
+
     ]
   }
 ]

@@ -13,17 +13,12 @@ export default {
             currentPage: 1,
             pageSize: 5,
             total: 0,
-            editDialig: false,
-            delDialig: false,
-            formData: {},
-            ids: [],
             //    搜索框数据
             goodsName: "",
             goodsModel: '',
             goodsColorId: undefined,
             goodsBrandId: undefined,
             // goodsCategoryId:-1,
-
             goodsColor: [],
             goodsBrand: [],
             //只有最子级
@@ -37,7 +32,6 @@ export default {
             defaultExpandedKey: [],
 
             //添加相关
-            addFirstBut: false,
         }
 
 
@@ -80,37 +74,18 @@ export default {
     created() {
         this.finaPageWithExample();
         this.initSearch()
-        this.initadd()
     },
 
 
     methods: {
         /**
-         * 添加商品----------->>>>>选择firstgoods
+         * 选择商品跳转页面 将商品id存到goodsId
          */
-        selectFirstGoods() {
-            this.$router.push({name: 'selectFirstGoods', params: {}})
+        selectGoods(id){
+            localStorage.setItem("goodsId",id)
+            this.$router.push({name:'priceadjust/priceadjustadmin'})
         },
-        /**
-         * 跳转
-         */
-        async initadd() {
-            if (localStorage.getItem("firstGoods")) {
-                //如果不为空说明是选择一类商品跳转来的   展示相关数据
-                this.editDialig = true;
-                var item = localStorage.getItem("firstGoods");
-                let refirstGoods = await firstGoods.findById(item)
-                this.formData = refirstGoods;
-                this.formData.firstGoodsId=item;
-                localStorage.clear();
-            }
-        },
-        /**
-         *根据id获取firstgoods
-         */
-        async getFistGoodsById(firstGoodsId) {
-            return await firstGoods.findById(firstGoodsId)
-        },
+
         /**
          * 初始化全部搜索框
          */
@@ -171,15 +146,6 @@ export default {
             this.defaultExpandedKey = []
 
         },
-        //endi的树
-        // 切换选项
-        handleClick(node) {
-            this.valueTitle = node[this.props.label]
-            this.valueId = node[this.props.value]
-            this.formData.goodsCatagoryId = this.valueId
-            this.$emit('getValue', this.valueId)
-            this.defaultExpandedKey = []
-        },
         // 清除选中
         clearHandle() {
             this.valueTitle = ''
@@ -193,7 +159,6 @@ export default {
             let allNode = document.querySelectorAll('#tree-option .el-tree-node')
             allNode.forEach((element) => element.classList.remove('is-current'))
         },
-
         //上为下拉框相关方法
 
 
@@ -223,29 +188,7 @@ export default {
             this.total = respnse.total;
             // console.log(this.tableData)
         },
-        /**
-         *点击确认后进行将form表单数据提交进行添加或者修改
-         */
-        async addOrEdit() {
-            console.log("进入addOrEdit")
-            if (this.formData.addTime) {
-                //修改
-                //给分类赋值
-                // this.formData.goodsColorId=this.valueId;
-                //验证分类是否为最下级
-                // let category= await category.findById(this.valueId)
-                //   if (category.ifParent){
-                //       this.open()
-                //       return;
-                //   }
-                await goods.updateEntity(this.formData)
 
-            } else {
-                //新建
-                await goods.addEntity(this.formData);
-            }
-            this.resetForm()
-        },
 
         /**
          * 清除表单信息form
@@ -262,55 +205,19 @@ export default {
             this.finaPageWithExample();
         },
 
-        /**
-         * 修改分类是父类弹框
-         */
-        open() {
-            this.$confirm('禁止修改,类型不应该为父类!', '提示', {
-                confirmButtonText: '确定',
-                // cancelButtonText: '取消',
-                type: 'warning'
-            })
-        },
-
-
         pageChange(page) {
             this.currentPage = page;
             this.finaPageWithExample()
         },
         /**
-         *点击编辑,查询数据并回显到from表单
+         *
          */
-        async findById(id) {
-            this.formData = await goods.findById(id)
-            //将分类回显
-            this.valueId = this.formData.goodsCatagoryId;
-            this.valueTitle = this.formData.goodsCatagory;
-            //将颜色回显
-            this.goodsColorId=this.formData.goodsColorId;
-            //品牌回显
-            this.goodsBrandId=this.formData.goodsBrandId;
-        },
         selectionChangListenter(selection) {
             this.ids = []
             selection.forEach(item => this.ids.push(item.id));
             console.log(this.ids)
 
         },
-
-        async deleteByIds() {
-            if (this.ids.length == 0) {
-                console.log("1323223")
-                this.$message.success("请选中要删除的内容")
-            } else {
-                await goods.deleteById(this.ids);
-                this.finaPageWithExample()
-                this.ids = []
-            }
-
-        },
-
-
     },
 
 
