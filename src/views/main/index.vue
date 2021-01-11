@@ -21,17 +21,33 @@
             <i class="el-icon-location"></i>
             <span>商品相关</span>
           </template>
+          <el-menu-item index="2-0">
+            <i class="el-icon-menu"></i>
+            <span slot="title" @click="$router.push({name:'firstGoods'})">一类商品查询</span>
+          </el-menu-item>
           <el-menu-item index="2-1">
             <i class="el-icon-menu"></i>
-            <span slot="title">品牌管理</span>
+            <span slot="title" @click="$router.push({name:'brand'})">品牌管理</span>
           </el-menu-item>
           <el-menu-item index="2-2">
             <i class="el-icon-menu"></i>
-            <span slot="title">分类管理</span>
+            <span slot="title" @click="$router.push({name:'category'})">分类管理</span>
           </el-menu-item>
           <el-menu-item index="2-3">
             <i class="el-icon-menu"></i>
-            <span slot="title">商品管理</span>
+            <span slot="title" @click="$router.push({name:'supplier'})">供应商管理</span>
+          </el-menu-item>
+          <el-menu-item index="2-4">
+            <i class="el-icon-menu"></i>
+            <span slot="title" @click="$router.push({name:'goods'})">商品管理</span>
+          </el-menu-item>
+          <el-menu-item index="2-5">
+            <i class="el-icon-menu"></i>
+            <span slot="title" @click="$router.push({name:'priceadjust/priceadjustadmin'})">价格调整管理</span>
+          </el-menu-item>
+          <el-menu-item index="2-6">
+            <i class="el-icon-menu"></i>
+            <span slot="title" @click="$router.push({name:'priceadjust/priceadjustaudit'})">价格调整审核</span>
           </el-menu-item>
 
         </el-submenu>

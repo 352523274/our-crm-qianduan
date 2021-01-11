@@ -101,7 +101,7 @@
               <el-input v-model="auditformdata.auditUserName" disabled></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="10">
             <el-form-item label="审批时间:" label-width="120px">
               <el-input v-model="auditformdata.auditDate" disabled></el-input>
             </el-form-item>

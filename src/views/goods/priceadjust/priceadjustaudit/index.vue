@@ -247,7 +247,7 @@
         <el-row>
           <el-col :span="20">
             <el-form-item label="审批状态:" label-width="120px">
-              <el-select v-model="auditformdata.aduitResult" placeholder="请选择">
+              <el-select v-model="auditformdata.auditResult" placeholder="请选择">
                 <el-option label="通过" value="1"></el-option>
                 <el-option label="未通过" value="0"></el-option>
               </el-select>
